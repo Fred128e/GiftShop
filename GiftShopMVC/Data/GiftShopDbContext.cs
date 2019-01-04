@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace GiftShop.Models
+
+namespace GiftShopMVC.Data
 {
     public class GiftShopDbContext : DbContext
     {
@@ -13,6 +14,6 @@ namespace GiftShop.Models
         {
         }
 
-        public DbSet<GiftShop.Models.Gift> Gift { get; set; }
+        public DbSet<GiftShopMVC.Models.GiftViewModel> Gift { get; set; }
     }
 }

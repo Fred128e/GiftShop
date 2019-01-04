@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
 using GiftShop.Models;
+using GiftShopMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -18,35 +19,35 @@ namespace GiftShopMVC.Services
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IEnumerable<Gift>> GetGifts()
+        public async Task<IEnumerable<GiftViewModel>> GetGifts()
         {
-            List<Gift> gift = null;
+            List<GiftViewModel> gift = null;
             var httpClient = _httpClientFactory.CreateClient();
             var response = await httpClient
                 .GetAsync($"{baseUrl}api/gifts/");
             if (response.IsSuccessStatusCode)
             {
-                gift = JsonConvert.DeserializeObject<List<Gift>>(await response.Content.ReadAsStringAsync());
+                gift = JsonConvert.DeserializeObject<List<GiftViewModel>>(await response.Content.ReadAsStringAsync());
             }
 
             return gift;
         }
 
-        public async Task<IEnumerable<Gift>> GetGenderGift(int id)
+        public async Task<IEnumerable<GiftViewModel>> GetGenderGift(int id)
         {
-            List<Gift> gift = null;
+            List<GiftViewModel> gift = null;
             var httpClient = _httpClientFactory.CreateClient();
             var response = await httpClient
                 .GetAsync($"{baseUrl}api/gifts/gender/{id}");
             if (response.IsSuccessStatusCode)
             {
-                gift = JsonConvert.DeserializeObject<List<Gift>>(await response.Content.ReadAsStringAsync());
+                gift = JsonConvert.DeserializeObject<List<GiftViewModel>>(await response.Content.ReadAsStringAsync());
             }
 
             return gift;
         }
 
-        public async Task AddGift(Gift gift)
+        public async Task AddGift(GiftViewModel gift)
         {
             var httpClient = _httpClientFactory.CreateClient();
             var response = await httpClient.PostAsJsonAsync($"{baseUrl}api/gifts", gift);

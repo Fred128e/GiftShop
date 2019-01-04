@@ -2,54 +2,40 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using GiftShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using GiftShopMVC.Models;
-using Newtonsoft.Json;
+using GiftShopMVC.Services;
 
 namespace GiftShopMVC.Controllers
 {
     public class HomeController:Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        public HomeController(IHttpClientFactory httpClientFactory)
+        private readonly IGiftRepository _iGiftRepository;
+        public HomeController(IGiftRepository giftRepository)
         {
-            _httpClientFactory = httpClientFactory;
+            _iGiftRepository = giftRepository;
         }
         public IActionResult Index()
         {
-            return View();
+            var gifts = _iGiftRepository.GetGifts().Result;
+            return View(gifts);
         }
 
-        public async Task <IActionResult> About()
+        public IActionResult GetGenderGifts(int id)
         {
-            var httpClient = _httpClientFactory.CreateClient();
+            var gifts = _iGiftRepository.GetGenderGift(2).Result;
+            return View(gifts);
+        }
 
-            // pass through a dummy name
-            var response = await httpClient
-                .GetAsync($"https://localhost:44347/api/gifts/");
-
-            if(response.IsSuccessStatusCode)
+        public IActionResult CreateGift([FromForm] GiftViewModel gift)
+        {
+            if(!ModelState.IsValid)
             {
-                var result = JsonConvert.DeserializeObject<List<Gift>>(await response.Content.ReadAsStringAsync());
+                return BadRequest(ModelState);
             }
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            var gifts= _iGiftRepository.AddGift(gift);
+            return View(gifts);
         }
 
         [ResponseCache(Duration = 0,Location = ResponseCacheLocation.None,NoStore = true)]
