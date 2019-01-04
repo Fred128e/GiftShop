@@ -25,15 +25,7 @@ namespace GiftShop.Controllers
         [HttpGet]
         public IEnumerable<Gift> GetGift()
         {
-            //var client = new HttpClient();
-            //var baseurl = "https://localhost:44347/api/Gifts/gender{0}{1}{2}";
-            //var uri = string.Format(baseurl, 2,2,3);
-            ////HttpResponseMessage response = client.GetAsync(uri).Result;
-            //if(response.IsSuccessStatusCode)
-            //{
-            //    var gits = response.Content.ReadAsAsync<List<Gift>>().Result;
-            //    return gits;
-            //}
+           
             return _context.Gift;
         }
 
@@ -63,8 +55,6 @@ namespace GiftShop.Controllers
             if (gifts.ToList().Count == 0)
                 return NotFound();
             return Ok(gifts.ToList());
-           
-            
         }
 
         // PUT: api/Gifts/5
