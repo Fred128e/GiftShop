@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  giftshopmvc:
+    image: ${DOCKER_REGISTRY-}giftshopmvc
+    build:
+      context: .
+      dockerfile: GiftShopMVC/Dockerfile

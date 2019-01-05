@@ -20,6 +20,7 @@ namespace GiftShopMVC.Controllers
         {
             var gifts = _iGiftRepository.GetGifts().Result;
             return View(gifts);
+            return View();
         }
 
         public IActionResult GetGenderGifts(int id)

@@ -53,7 +53,7 @@ namespace GiftShopMVC.Services
             var response = await httpClient.PostAsJsonAsync($"{baseUrl}api/gifts", gift);
             if (response.IsSuccessStatusCode)
             {
-                //ok
+                JsonConvert.DeserializeObject<List<GiftViewModel>>(await response.Content.ReadAsStringAsync());
             }
         }
     }
